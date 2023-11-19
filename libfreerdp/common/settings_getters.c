@@ -546,9 +546,6 @@ BOOL freerdp_settings_get_bool(const rdpSettings* settings, size_t id)
 		case FreeRDP_SupportMultitransport:
 			return settings->SupportMultitransport;
 
-		case FreeRDP_SupportSSHAgentChannel:
-			return settings->SupportSSHAgentChannel;
-
 		case FreeRDP_SupportSkipChannelJoin:
 			return settings->SupportSkipChannelJoin;
 
@@ -1288,10 +1285,6 @@ BOOL freerdp_settings_set_bool(rdpSettings* settings, size_t id, BOOL val)
 
 		case FreeRDP_SupportMultitransport:
 			settings->SupportMultitransport = cnv.c;
-			break;
-
-		case FreeRDP_SupportSSHAgentChannel:
-			settings->SupportSSHAgentChannel = cnv.c;
 			break;
 
 		case FreeRDP_SupportSkipChannelJoin:
@@ -2787,9 +2780,6 @@ const char* freerdp_settings_get_string(const rdpSettings* settings, size_t id)
 		case FreeRDP_ProxyUsername:
 			return settings->ProxyUsername;
 
-		case FreeRDP_RDP2TCPArgs:
-			return settings->RDP2TCPArgs;
-
 		case FreeRDP_ReaderName:
 			return settings->ReaderName;
 
@@ -3091,9 +3081,6 @@ char* freerdp_settings_get_string_writable(rdpSettings* settings, size_t id)
 
 		case FreeRDP_ProxyUsername:
 			return settings->ProxyUsername;
-
-		case FreeRDP_RDP2TCPArgs:
-			return settings->RDP2TCPArgs;
 
 		case FreeRDP_ReaderName:
 			return settings->ReaderName;
@@ -3405,9 +3392,6 @@ BOOL freerdp_settings_set_string_(rdpSettings* settings, size_t id, char* val, s
 
 		case FreeRDP_ProxyUsername:
 			return update_string_(&settings->ProxyUsername, cnv.c, len);
-
-		case FreeRDP_RDP2TCPArgs:
-			return update_string_(&settings->RDP2TCPArgs, cnv.c, len);
 
 		case FreeRDP_ReaderName:
 			return update_string_(&settings->ReaderName, cnv.c, len);
@@ -3737,9 +3721,6 @@ BOOL freerdp_settings_set_string_copy_(rdpSettings* settings, size_t id, const c
 
 		case FreeRDP_ProxyUsername:
 			return update_string_copy_(&settings->ProxyUsername, cnv.cc, len, cleanup);
-
-		case FreeRDP_RDP2TCPArgs:
-			return update_string_copy_(&settings->RDP2TCPArgs, cnv.cc, len, cleanup);
 
 		case FreeRDP_ReaderName:
 			return update_string_copy_(&settings->ReaderName, cnv.cc, len, cleanup);

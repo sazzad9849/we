@@ -1,8 +1,8 @@
 # FreeRDP: A Remote Desktop Protocol Implementation
 # FreeRDP cmake build script
 #
-# Copyright 2012 Marc-Andre Moreau <marcandre.moreau@gmail.com>
-# Copyright 2017 Ben Cohen
+# Copyright 2022 Armin Novak <anovak@thincast.com>
+# Copyright 2022 Thincast Technologies GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,17 +16,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-define_channel_client("sshagent")
+set(MODULE_NAME "ainput-client")
 
-set(${MODULE_PREFIX}_SRCS
-	sshagent_main.c
-	sshagent_main.h
+set(SRCS
+	ainput_main.c
+	ainput_main.h
 )
 
-set(${MODULE_PREFIX}_LIBS
+set(LIBS
+	freerdp-client
+	freerdp
 	winpr
 )
 
 include_directories(..)
 
-add_channel_client_library(${MODULE_PREFIX} ${MODULE_NAME} ${CHANNEL_NAME} TRUE "DVCPluginEntry")
+add_library(${MODULE_NAME}
+	SHARED
+ 		${SRCS}
+	)
+target_link_libraries(${MODULE_NAME} PRIVATE ${LIBS})
+install(TARGETS ${MODULE_NAME} COMPONENT channels EXPORT FreeRDPTargets
+        ARCHIVE DESTINATION ${FREERDP_PLUGIN_PATH}
+        LIBRARY DESTINATION ${FREERDP_PLUGIN_PATH}
+        RUNTIME DESTINATION ${FREERDP_PLUGIN_PATH}
+)

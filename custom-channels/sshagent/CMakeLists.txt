@@ -1,8 +1,8 @@
 # FreeRDP: A Remote Desktop Protocol Implementation
 # FreeRDP cmake build script
 #
-# Copyright 2022 Armin Novak <anovak@thincast.com>
-# Copyright 2022 Thincast Technologies GmbH
+# Copyright 2012 Marc-Andre Moreau <marcandre.moreau@gmail.com>
+# Copyright 2017 Ben Cohen
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,17 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-define_channel_client("ainput")
+include(CMakeDependentOption)
 
-set(${MODULE_PREFIX}_SRCS
-	ainput_main.c
-	ainput_main.h
-)
-
-set(${MODULE_PREFIX}_LIBS
-	winpr
-)
-
-include_directories(..)
-
-add_channel_client_library(${MODULE_PREFIX} ${MODULE_NAME} ${CHANNEL_NAME} TRUE "DVCPluginEntry")
+option(CHANNEL_SSHAGENT "build sshagent channel" ON)
+CMAKE_DEPENDENT_OPTION(CHANNEL_SSHAGENT_CLIENT "build sshagent client channel" ON
+	"CHANNEL_SSHAGENT" OFF)
+CMAKE_DEPENDENT_OPTION(CHANNEL_SSHAGENT_SERVER "build sshagent server channel" OFF
+	"CHANNEL_SSHAGENT" OFF)
+if (CHANNEL_SSHAGENT)
+	if (CHANNEL_SSHAGENT_CLIENT)
+		add_subdirectory(client)
+	endif()
+	if (CHANNEL_SSHAGENT_SERVER)
+		add_subdirectory(server)
+	endif()
+endif()

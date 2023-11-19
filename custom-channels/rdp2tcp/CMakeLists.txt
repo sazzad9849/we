@@ -2,7 +2,6 @@
 # FreeRDP cmake build script
 #
 # Copyright 2012 Marc-Andre Moreau <marcandre.moreau@gmail.com>
-# Copyright 2017 Ben Cohen
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,8 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-define_channel("sshagent")
+include(CMakeDependentOption)
 
-if(WITH_CLIENT_CHANNELS)
-	add_channel_client(${MODULE_PREFIX} ${CHANNEL_NAME})
+option(CHANNEL_RDP2TCP "build rdp2tcp channel" ON)
+CMAKE_DEPENDENT_OPTION(CHANNEL_RDP2TCP_CLIENT "build rdp2tcp client channel" ON
+	"CHANNEL_RDP2TCP" OFF)
+CMAKE_DEPENDENT_OPTION(CHANNEL_RDP2TCP_SERVER "build rdp2tcp server channel" OFF
+	"CHANNEL_RDP2TCP" OFF)
+if (CHANNEL_RDP2TCP)
+	if (CHANNEL_RDP2TCP_CLIENT)
+		add_subdirectory(client)
+	endif()
+	if (CHANNEL_RDP2TCP_SERVER)
+		add_subdirectory(server)
+	endif()
 endif()

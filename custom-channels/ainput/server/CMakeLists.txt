@@ -16,12 +16,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-define_channel("ainput")
+set(MODULE_NAME "ainput-server")
 
-if(WITH_CLIENT_CHANNELS)
-	add_channel_client(${MODULE_PREFIX} ${CHANNEL_NAME})
-endif()
+set(SRCS
+	ainput_main.c
+)
 
-if(WITH_SERVER_CHANNELS)
-	add_channel_server(${MODULE_PREFIX} ${CHANNEL_NAME})
-endif()
+set(LIBS
+	freerdp
+	winpr
+)
+
+include_directories(..)
+
+add_library(${MODULE_NAME}
+	SHARED
+ 		${SRCS}
+	)
+target_link_libraries(${MODULE_NAME} PRIVATE ${LIBS})
+install(TARGETS ${MODULE_NAME} COMPONENT channels EXPORT FreeRDPTargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
