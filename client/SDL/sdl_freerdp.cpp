@@ -1273,7 +1273,7 @@ static DWORD WINAPI sdl_client_thread_proc(SdlContext* sdl)
 			break;
 		}
 
-		status = WaitForMultipleObjects(nCount, handles, FALSE, 100);
+		status = WaitForMultipleObjects(nCount, handles, FALSE, INFINITE);
 
 		if (status == WAIT_FAILED)
 		{
